@@ -61,6 +61,18 @@ class LoginViewController: UIViewController {
         return field
     }()
     
+    private let loginButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Log In", for: .normal)
+        // 파란 색
+        button.backgroundColor = .link
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 12
+        button.layer.masksToBounds = true
+        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Log In"
@@ -75,6 +87,7 @@ class LoginViewController: UIViewController {
         scrollView.addSubview(logoImageView)
         scrollView.addSubview(emailField)
         scrollView.addSubview(passwordField)
+        scrollView.addSubview(loginButton)
     }
     
     override func viewDidLayoutSubviews() {
@@ -91,9 +104,13 @@ class LoginViewController: UIViewController {
                                   width: scrollView.width - 60,
                                   height: 52)
         passwordField.frame = CGRect(x: 30,
-                                  y: emailField.bottom + 20,
-                                  width: scrollView.width - 60,
-                                  height: 52)
+                                     y: emailField.bottom + 20,
+                                     width: scrollView.width - 60,
+                                     height: 52)
+        loginButton.frame = CGRect(x: 30,
+                                   y: passwordField.bottom + 20,
+                                   width: scrollView.width - 60,
+                                   height: 52)
     }
     
     @objc private func didTapRegister() {
