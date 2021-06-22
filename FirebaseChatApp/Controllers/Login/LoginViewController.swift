@@ -63,7 +63,7 @@ class LoginViewController: UIViewController {
     
     private let loginButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Log In", for: .normal)
+        button.setTitle("로그인", for: .normal)
         // 파란 색
         button.backgroundColor = .link
         button.setTitleColor(.white, for: .normal)
@@ -75,13 +75,20 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Log In"
+        title = "로그인"
         view.backgroundColor = .white
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register",
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "회원가입",
                                                             style: .done,
                                                             target: self,
                                                             action: #selector(didTapRegister))
+        loginButton.addTarget(self,
+                              action: #selector(loginButtonTapped),
+                              for: .touchUpInside)
+        
+        emailField.delegate = self
+        passwordField.delegate = self
+        
         // Add subviews
         view.addSubview(scrollView)
         scrollView.addSubview(logoImageView)
@@ -113,10 +120,37 @@ class LoginViewController: UIViewController {
                                    height: 52)
     }
     
+    @objc private func loginButtonTapped() {
+        // 이메일, 비밀번호 유효성 검사
+        guard let email = emailField.text,
+              let password = passwordField.text,
+              !email.isEmpty, !password.isEmpty,
+              password.count >= 6 else {
+            alertUserLoginError()
+            return
+        }
+        
+        // TODO: 파이어 베이스 로그인
+    }
+    
+    func alertUserLoginError() {
+        let alert = UIAlertController(title: "로그인 실패",
+                                      message: "이메일과 비밀번호를 확인해주세요",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인",
+                                      style: .cancel,
+                                      handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
     @objc private func didTapRegister() {
         let registerViewController = RegisterViewController()
-        registerViewController.title = "Create Account"
+        registerViewController.title = "계정 생성"
         navigationController?.pushViewController(registerViewController, animated: true)
     }
 
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    
 }
