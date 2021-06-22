@@ -40,6 +40,27 @@ class LoginViewController: UIViewController {
         return field
     }()
     
+    private let passwordField: UITextField = {
+        let field = UITextField()
+        field.autocapitalizationType = .none
+        field.autocorrectionType = .no
+        // 비밀번호는 입력했으면 모든 입력이 끝나기 때문에! -> 로그인
+        field.returnKeyType = .done
+        field.layer.cornerRadius = 12
+        field.layer.borderWidth = 1
+        field.layer.borderColor = UIColor.lightGray.cgColor
+        field.placeholder = "password.."
+        
+        // 입력창에 왼쪽으로 딱 붙어 있는것을 조금 띄워주는 방법
+        field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
+        field.leftViewMode = .always
+        field.backgroundColor = .white
+        
+        // 비번 창
+        field.isSecureTextEntry = true
+        return field
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Log In"
@@ -53,6 +74,7 @@ class LoginViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(logoImageView)
         scrollView.addSubview(emailField)
+        scrollView.addSubview(passwordField)
     }
     
     override func viewDidLayoutSubviews() {
@@ -68,7 +90,10 @@ class LoginViewController: UIViewController {
                                   y: logoImageView.bottom + 20,
                                   width: scrollView.width - 60,
                                   height: 52)
-        
+        passwordField.frame = CGRect(x: 30,
+                                  y: emailField.bottom + 20,
+                                  width: scrollView.width - 60,
+                                  height: 52)
     }
     
     @objc private func didTapRegister() {
