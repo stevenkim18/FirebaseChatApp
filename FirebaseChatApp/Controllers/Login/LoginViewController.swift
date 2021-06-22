@@ -121,6 +121,9 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func loginButtonTapped() {
+        // 텍스트필드에서 키보드가 내려감.
+        emailField.resignFirstResponder()
+        passwordField.resignFirstResponder()
         // 이메일, 비밀번호 유효성 검사
         guard let email = emailField.text,
               let password = passwordField.text,
@@ -152,5 +155,15 @@ class LoginViewController: UIViewController {
 }
 
 extension LoginViewController: UITextFieldDelegate {
-    
+    // 텍스트 필드에서 입력을 클릭 했을 때 처리
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailField {
+            // 이메일을 입력하고 계속 버튼을 누르면 비번이 활성화
+            passwordField.becomeFirstResponder()
+        } else if textField == passwordField {
+            // 비번을 입력하고 done 버튼을 누르면 로그인 하기!
+            loginButtonTapped()
+        }
+        return true
+    }
 }
